@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { connect } from 'react-redux'
+import RenderIf from './components/Utils/RenderIf'
+import { checkIsAuthThunk } from './store/authReducer'
+import PrivateRoute from './components/Utils/PrivateRoute'
+import AuthRoute from './components/Utils/AuthRoute'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import LoginPage from './components/Login/login'
+import RegistrationPage from './components/Registration/registration'
+import MainPage from './components/Main/Main'
+
+function App({ isAuth, isAppInitialized, ...props }) {
+	useEffect(() => {
+		props.checkIsAuthThunk()
+	}, [])
+
+	if (!isAppInitialized) {
+		return <div>Loading...</div>
+	}
+
+	return (
+		<BrowserRouter>
+			<Switch>
+				<PrivateRoute
+					isAuth={isAuth}
+					path='/test'
+					component={() => <div>Test</div>}
+				/>
+				<PrivateRoute
+					isAuth={isAuth}
+					path='/main'
+					component={MainPage}
+				/>
+				<AuthRoute
+					isAuth={isAuth}
+					path='/login'
+					component={LoginPage}
+				/>
+				<AuthRoute
+					isAuth={isAuth}
+					path='/registration'
+					component={RegistrationPage}
+				/>
+				<Route path='*' component={() => <div>Page not found</div>} />
+			</Switch>
+		</BrowserRouter>
+	)
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+	isAuth: state.auth.isAuth,
+	isAppInitialized: state.auth.initialized,
+})
+
+export default connect(mapStateToProps, { checkIsAuthThunk })(App)
