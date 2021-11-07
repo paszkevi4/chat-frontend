@@ -28,9 +28,9 @@ export const setUser = (user, isAuth) => ({
 	data: { user, isAuth },
 })
 
-const initialize = (isAuth) => ({
+const initialize = (isAuth, user = {}) => ({
 	type: 'INITIAL_LOADING',
-	data: { initialized: true, isAuth },
+	data: { initialized: true, isAuth, user },
 })
 
 export const logInThunk = (email, password) => {
@@ -70,8 +70,9 @@ export const checkIsAuthThunk = () => {
 	return (dispatch) => {
 		checkIsAuth()
 			.then((response) => {
+				console.log('~ response', response)
 				localStorage.setItem('accessToken', response.accessToken)
-				dispatch(initialize(true))
+				dispatch(initialize(true, response.data))
 			})
 			.catch((response) => {
 				dispatch(initialize(false))

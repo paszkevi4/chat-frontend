@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { logInThunk } from '../../store/authReducer'
 
 const LoginPage = ({ logInThunk }) => {
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
+	const [email, setEmail] = useState('user1@gmail.com')
+	const [password, setPassword] = useState('1234')
 
 	const onLoginSubmit = () => {
 		logInThunk(email, password)

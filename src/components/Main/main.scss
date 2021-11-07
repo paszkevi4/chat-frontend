@@ -1,0 +1,42 @@
+.main {
+	width: 100vw;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 400px 1fr;
+}
+
+.menu {
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+	background-color: rgb(236, 236, 236);
+}
+
+.messages {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.messages__header {
+	width: 100%;
+	height: 75px;
+	border-bottom: 1px solid grey;
+	background-color: green;
+}
+
+.messages__body {
+	width: 100%;
+	flex-grow: 1;
+	border-bottom: 1px solid grey;
+	background-color: red;
+}
+
+.messages__footer {
+	width: 100%;
+	height: 75px;
+	border-bottom: 1px solid grey;
+	background-color: green;
+}
